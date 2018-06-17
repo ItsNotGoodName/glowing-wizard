@@ -1,2 +1,2 @@
 # glowing-wizard
-Character that shoots balls.
+Wizard that shoots balls.
