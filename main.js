@@ -221,21 +221,21 @@ function draw(){
 var wiz = new Wizard(0, 0, 128, 128);
 
 function keyDown(event){
-    console.log(event['key']);
-    switch(event['key']){
-        case 'w':
+    console.log(event);
+    switch(event['keyCode']){
+        case 87: // w
             wiz.walkingUp = true;
             break;
-        case 'd':
+        case 68: // d
             wiz.walkingRight = true;
             break;        
-        case 's':
+        case 83: // s
             wiz.walkingDown = true;
             break;     
-        case 'a':
+        case 65: // a
             wiz.walkingLeft = true;
             break;
-        case 'Shift':
+        case 16: // shift
             wiz.sprinting = true;
             break;
         // case 'ArrowUp':
@@ -255,20 +255,20 @@ function keyDown(event){
 }
 
 function keyUp(event){
-    switch(event['key']){
-        case 'w':
+    switch(event['keyCode']){
+        case 87: // w
             wiz.walkingUp = false;
             break;
-        case 'd':
+        case 68: // d
             wiz.walkingRight = false;
             break;        
-        case 's':
+        case 83: // s
             wiz.walkingDown = false;
             break;     
-        case 'a':
+        case 65: // a
             wiz.walkingLeft = false;
-            break;     
-        case 'Shift':
+            break;
+        case 16: // shift
             wiz.sprinting = false;   
             break
     }
