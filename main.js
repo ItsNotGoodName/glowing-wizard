@@ -27,13 +27,37 @@ function calculateGameCoordinate(x, y){
     return {x,y};
 }
 
+function collision(fireball){
+    for(var e in fireballs){
+        if(fireballs[e] != fireball){
+            var x = fireball.x - fireballs[e].x;
+            var y = fireball.y - fireballs[e].y;
+            var dist = Math.sqrt((x * x) + (y * y));
+            
+            if(dist < (fireballs[e].radius + fireball.radius)){ // it hit
+                if(fireball.radius > fireballs[e].radius){ // takes fireballs life and radius
+                    fireball.radius+= fireballs[e].radius;
+                    fireball.dx += fireballs[e].dx;
+                    fireball.dy += fireballs[e].dy;
+
+                    fireballs[e].radius = 0;
+                    fireballs[e].life = 0;
+                }
+            }
+        }
+    }
+}
+
+/*****************************Objects************************/
+
+
 function fireball(x, y, radius){
     this.x = x;
     this.y = y;
     this.dx = 0;
     this.dy = 0;
     this.radius = radius
-    this.tick = 0;
+    this.life = 600;
 
     this.draw = function(){
         var coord = calculateScreenCoordinate(this.x,this.y);
@@ -54,13 +78,11 @@ function fireball(x, y, radius){
     }
     
     this.update = function(){
-        this.tick++;
+        this.life--;
         this.x+=this.dx;
         this.y+=this.dy;
     }
 }
-
-/**********************************************************/
 
 function Wizard(x, y, width, height){
     this.x = x;
@@ -202,17 +224,15 @@ function drawBackground(){
 function draw(){
     ctx.clearRect(0,0, window.innerWidth, window.innerHeight);
     drawBackground();
-    // update wizard
-    // draw wizard
-    // draw otherWizards
 
     wiz.update();
     wiz.draw();
     for(var e in fireballs){
-        if(fireballs[e].tick > 600){ 
-            fireballs.shift();
+        if(fireballs[e].life <= 0){ 
+            fireballs.splice(e,1);
         } else{
             fireballs[e].update();
+            collision(fireballs[e]);
             fireballs[e].draw();
         }
     }
